@@ -1,0 +1,223 @@
+<div class="wishlist-page">
+
+    <div class="container">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <div class="wishlist-header">
+
+            <div>
+
+                <span class="page-label">
+                    SHOPSPHERE
+                </span>
+
+                <h1>
+                    ❤️ My Wishlist
+                </h1>
+
+                <p>
+                    Save your favourite products and shop them anytime.
+                </p>
+
+            </div>
+
+
+            <button
+                class="continue-btn"
+                (click)="goToProducts()">
+
+                ← Continue Shopping
+
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             LOADING
+        ========================== -->
+
+        <div
+            class="loading-box"
+            *ngIf="loading">
+
+            <div class="spinner"></div>
+
+            <p>
+                Loading your wishlist...
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             EMPTY WISHLIST
+        ========================== -->
+
+        <div
+            class="empty-wishlist"
+            *ngIf="!loading && wishlistItems.length === 0">
+
+            <div class="empty-icon">
+                💔
+            </div>
+
+            <h2>
+                Your Wishlist is Empty
+            </h2>
+
+            <p>
+                You haven't added any products to your wishlist yet.
+                Explore our products and save your favourites.
+            </p>
+
+            <button
+                class="shop-btn"
+                (click)="goToProducts()">
+
+                🛍️ Browse Products
+
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             WISHLIST CONTENT
+        ========================== -->
+
+        <div
+            class="wishlist-content"
+            *ngIf="!loading && wishlistItems.length > 0">
+
+
+            <!-- Wishlist Summary -->
+
+            <div class="wishlist-summary">
+
+                <div>
+
+                    <h2>
+                        Saved Products
+                    </h2>
+
+                    <span>
+                        {{wishlistItems.length}}
+                        {{wishlistItems.length === 1 ? 'Product' : 'Products'}}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product Grid -->
+
+            <div class="wishlist-grid">
+
+                <div
+                    class="wishlist-card"
+                    *ngFor="let item of wishlistItems">
+
+
+                    <!-- Image -->
+
+                    <div class="wishlist-image-container">
+
+                        <img
+                            [src]="'images/' + item.imageUrl"
+                            [alt]="item.productName"
+                            class="wishlist-image">
+
+                        <div class="wishlist-badge">
+                            ❤️ Saved
+                        </div>
+
+                    </div>
+
+
+                    <!-- Product Information -->
+
+                    <div class="wishlist-body">
+
+                        <h3>
+                            {{item.productName}}
+                        </h3>
+
+
+                        <div class="price-row">
+
+                            <span class="price-label">
+                                Price
+                            </span>
+
+                            <strong>
+                                ₹{{item.price | number:'1.2-2'}}
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Actions -->
+
+                        <div class="wishlist-actions">
+
+                            <button
+                                class="details-btn"
+                                (click)="viewProduct(item.productId)">
+
+                                👁️ View Details
+
+                            </button>
+
+
+                            <button
+                                class="remove-btn"
+                                (click)="removeFromWishlist(item.productId)">
+
+                                🗑️ Remove
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Bottom -->
+
+            <div class="wishlist-footer">
+
+                <div>
+
+                    <strong>
+                        Found something you like?
+                    </strong>
+
+                    <p>
+                        Continue browsing to discover more products.
+                    </p>
+
+                </div>
+
+                <button
+                    (click)="goToProducts()">
+
+                    Explore Products →
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

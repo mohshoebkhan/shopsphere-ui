@@ -1,0 +1,461 @@
+<div class="checkout-page">
+
+    <div class="checkout-container">
+
+        <!-- HEADER -->
+        <div class="checkout-header">
+
+            <div>
+
+                <span class="page-label">
+                    SHOPSPHERE
+                </span>
+
+                <h1>
+                    🛍️ Checkout
+                </h1>
+
+                <p>
+                    Complete your details and place your order.
+                </p>
+
+            </div>
+
+            <button
+                class="back-btn"
+                (click)="goBackToCart()">
+
+                ← Back to Cart
+
+            </button>
+
+        </div>
+
+
+        <!-- LOADING -->
+        <div
+            class="loading-box"
+            *ngIf="loading">
+
+            <div class="spinner"></div>
+
+            <p>
+                Loading checkout...
+            </p>
+
+        </div>
+
+
+        <!-- CHECKOUT CONTENT -->
+        <div
+            class="checkout-layout"
+            *ngIf="!loading && cartItems.length > 0">
+
+
+            <!-- LEFT -->
+            <div class="checkout-left">
+
+
+                <!-- DELIVERY ADDRESS -->
+                <div class="checkout-card">
+
+                    <div class="card-header">
+
+                        <div class="card-number">
+                            1
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Delivery Address
+                            </h2>
+
+                            <p>
+                                Enter your delivery details
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <!-- FULL NAME -->
+                        <div class="form-group full-width">
+
+                            <label>
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                [(ngModel)]="checkoutData.fullName"
+                                placeholder="Enter your full name">
+
+                        </div>
+
+
+                        <!-- MOBILE -->
+                        <div class="form-group">
+
+                            <label>
+                                Mobile Number
+                            </label>
+
+                            <input
+                                type="text"
+                                maxlength="10"
+                                [(ngModel)]="checkoutData.mobile"
+                                placeholder="10 digit mobile number">
+
+                        </div>
+
+
+                        <!-- PINCODE -->
+                        <div class="form-group">
+
+                            <label>
+                                Pincode
+                            </label>
+
+                            <input
+                                type="text"
+                                maxlength="6"
+                                [(ngModel)]="checkoutData.pincode"
+                                placeholder="6 digit pincode">
+
+                        </div>
+
+
+                        <!-- ADDRESS -->
+                        <div class="form-group full-width">
+
+                            <label>
+                                Address
+                            </label>
+
+                            <textarea
+                                rows="4"
+                                [(ngModel)]="checkoutData.address"
+                                placeholder="House No, Street, Area, Landmark">
+                            </textarea>
+
+                        </div>
+
+
+                        <!-- CITY -->
+                        <div class="form-group">
+
+                            <label>
+                                City
+                            </label>
+
+                            <input
+                                type="text"
+                                [(ngModel)]="checkoutData.city"
+                                placeholder="Enter city">
+
+                        </div>
+
+
+                        <!-- STATE -->
+                        <div class="form-group">
+
+                            <label>
+                                State
+                            </label>
+
+                            <input
+                                type="text"
+                                [(ngModel)]="checkoutData.state"
+                                placeholder="Enter state">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENT -->
+                <div class="checkout-card">
+
+                    <div class="card-header">
+
+                        <div class="card-number">
+                            2
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Payment Method
+                            </h2>
+
+                            <p>
+                                Select your preferred payment method
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-option">
+
+                        <input
+                            type="radio"
+                            checked
+                            disabled>
+
+                        <div>
+
+                            <strong>
+                                Cash on Delivery
+                            </strong>
+
+                            <small>
+                                Pay when your order is delivered
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SECURITY -->
+                <div class="secure-box">
+
+                    🔒
+
+                    <div>
+
+                        <strong>
+                            Safe & Secure Checkout
+                        </strong>
+
+                        <p>
+                            Your information is protected and secure.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- RIGHT -->
+            <div class="checkout-right">
+
+
+                <!-- ORDER SUMMARY -->
+                <div class="summary-card">
+
+                    <div class="summary-header">
+
+                        <h2>
+                            Order Summary
+                        </h2>
+
+                        <span>
+                            {{cartItems.length}}
+                            {{cartItems.length === 1 ? 'Item' : 'Items'}}
+                        </span>
+
+                    </div>
+
+
+                    <!-- PRODUCTS -->
+                    <div class="summary-items">
+
+                        <div
+                            class="summary-item"
+                            *ngFor="let item of cartItems">
+
+                            <div class="summary-image">
+
+                                <img
+                                    [src]="'images/' + item.imageUrl"
+                                    [alt]="item.productName">
+
+                            </div>
+
+
+                            <div class="summary-product">
+
+                                <h3>
+                                    {{item.productName}}
+                                </h3>
+
+                                <p>
+                                    Qty: {{item.quantity}}
+                                </p>
+
+                                <strong>
+                                    ₹{{item.totalPrice | number:'1.2-2'}}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-divider"></div>
+
+
+                    <!-- PRICE -->
+                    <div class="summary-row">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <span>
+                            ₹{{total | number:'1.2-2'}}
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Delivery
+                        </span>
+
+                        <span class="free">
+                            FREE
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-divider"></div>
+
+
+                    <div class="total-row">
+
+                        <span>
+                            Total Amount
+                        </span>
+
+                        <strong>
+                            ₹{{total | number:'1.2-2'}}
+                        </strong>
+
+                    </div>
+
+
+                    <!-- PLACE ORDER -->
+                    <button
+                        class="place-order-btn"
+                        [disabled]="placingOrder"
+                        (click)="placeOrder()">
+
+                        <span *ngIf="!placingOrder">
+                            Place Order
+                        </span>
+
+                        <span *ngIf="placingOrder">
+                            Placing Order...
+                        </span>
+
+                        <span *ngIf="!placingOrder">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <div class="checkout-note">
+
+                        🔒 Secure checkout
+
+                    </div>
+
+                </div>
+
+
+                <!-- BENEFITS -->
+                <div class="benefits-card">
+
+                    <div class="benefit">
+
+                        <span>
+                            🚚
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Free Delivery
+                            </strong>
+
+                            <small>
+                                On your order
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="benefit">
+
+                        <span>
+                            ↩️
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Easy Returns
+                            </strong>
+
+                            <small>
+                                Hassle-free returns
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="benefit">
+
+                        <span>
+                            🔒
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Secure Checkout
+                            </strong>
+
+                            <small>
+                                Your data is protected
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

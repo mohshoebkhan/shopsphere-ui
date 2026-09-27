@@ -1,0 +1,190 @@
+<header class="shop-header">
+
+  <!-- Main Header -->
+  <div class="header-main">
+
+    <!-- Logo -->
+    <div
+      class="logo"
+      (click)="goToHome()">
+
+      <div class="logo-icon">
+        🛍️
+      </div>
+
+      <div class="logo-text">
+        <span class="shop-name">
+          ShopSphere
+        </span>
+
+        <span class="tagline">
+          Explore. Shop. Enjoy.
+        </span>
+      </div>
+
+    </div>
+
+
+    <!-- Search -->
+    <div class="search-container">
+
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (keyup.enter)="search()"
+        placeholder="Search for products, brands and more"
+      />
+
+      <button
+        type="button"
+        (click)="search()">
+
+        🔍
+
+      </button>
+
+    </div>
+
+
+    <!-- Right Menu -->
+    <div class="header-actions">
+
+      <!-- Login -->
+      <button
+        *ngIf="!user"
+        class="login-button"
+        type="button"
+        (click)="goToLogin()">
+
+        Login
+
+      </button>
+
+
+      <!-- User -->
+      <div
+        *ngIf="user"
+        class="user-menu">
+
+        <span class="user-icon">
+          👤
+        </span>
+
+        <span class="user-name">
+          {{ user.firstName }}
+        </span>
+
+      </div>
+
+
+      <!-- Wishlist -->
+      <button
+        class="header-action"
+        type="button"
+        (click)="goToWishlist()">
+
+        <span>❤️</span>
+
+        <span class="action-text">
+          Wishlist
+        </span>
+
+      </button>
+
+
+      <!-- Orders -->
+      <button
+        class="header-action"
+        type="button"
+        (click)="goToOrders()">
+
+        <span>📦</span>
+
+        <span class="action-text">
+          Orders
+        </span>
+
+      </button>
+
+
+      <!-- Cart -->
+      <button
+        class="header-action cart-button"
+        type="button"
+        (click)="goToCart()">
+
+        <span>🛒</span>
+
+        <span class="action-text">
+          Cart
+        </span>
+
+      </button>
+
+
+      <!-- Logout -->
+      <button
+        *ngIf="user"
+        class="logout-button"
+        type="button"
+        (click)="logout()">
+
+        Logout
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Category Navigation -->
+  <nav class="category-nav">
+
+    <button
+      type="button"
+      (click)="goToHome()">
+
+      🏠
+      <span>Home</span>
+
+    </button>
+
+    <button type="button">
+      📱
+      <span>Mobiles</span>
+    </button>
+
+    <button type="button">
+      💻
+      <span>Electronics</span>
+    </button>
+
+    <button type="button">
+      👕
+      <span>Fashion</span>
+    </button>
+
+    <button type="button">
+      🏠
+      <span>Home & Furniture</span>
+    </button>
+
+    <button type="button">
+      💄
+      <span>Beauty</span>
+    </button>
+
+    <button type="button">
+      🛒
+      <span>Grocery</span>
+    </button>
+
+    <button type="button">
+      🎁
+      <span>Offers</span>
+    </button>
+
+  </nav>
+
+</header>

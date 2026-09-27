@@ -1,0 +1,124 @@
+<div class="login-container">
+
+  <div class="login-card">
+
+    <!-- Logo / Brand -->
+    <div class="brand-section">
+
+      <div class="brand-icon">
+        🛍️
+      </div>
+
+      <h1>ShopSphere</h1>
+
+      <p>Welcome back!</p>
+
+    </div>
+
+    <!-- Login Form -->
+    <form (ngSubmit)="login()">
+
+      <!-- Email -->
+      <div class="form-group">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <div class="input-wrapper">
+
+          <span class="input-icon">
+            ✉
+          </span>
+
+          <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="loginData.email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          />
+
+        </div>
+
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <div class="input-wrapper">
+
+          <span class="input-icon">
+            🔒
+          </span>
+
+          <input
+            id="password"
+            type="password"
+            name="password"
+            [(ngModel)]="loginData.password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          />
+
+        </div>
+
+      </div>
+
+      <!-- Forgot Password -->
+      <div class="forgot-password">
+
+        <a href="javascript:void(0)">
+          Forgot Password?
+        </a>
+
+      </div>
+
+      <!-- Login Button -->
+      <button
+        type="submit"
+        class="login-btn">
+
+        Login
+
+      </button>
+
+    </form>
+
+    <!-- Register -->
+    <div class="register-section">
+
+      <span>
+        Don't have an account?
+      </span>
+
+      <button
+        type="button"
+        (click)="goToRegister()">
+
+        Create Account
+
+      </button>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer">
+
+      <span>
+        © 2026 ShopSphere
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+

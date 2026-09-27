@@ -1,0 +1,402 @@
+<div class="products-page">
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+
+    <div class="hero-content">
+      <span class="hero-badge">
+        🛍️ ShopSphere
+      </span>
+
+      <h1>
+        Discover Products
+        <span>You'll Love</span>
+      </h1>
+
+      <p>
+        Explore electronics, mobiles, fashion, shoes and more
+        at amazing prices.
+      </p>
+
+      <button
+        type="button"
+        class="hero-button"
+        (click)="loadProducts()">
+        Shop Now →
+      </button>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-circle">
+        🛒
+      </div>
+
+      <div class="floating-card card-one">
+        📱
+        <span>Mobiles</span>
+      </div>
+
+      <div class="floating-card card-two">
+        💻
+        <span>Electronics</span>
+      </div>
+
+      <div class="floating-card card-three">
+        👟
+        <span>Fashion</span>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- CATEGORY SECTION -->
+  <section class="category-section">
+
+    <div class="section-heading">
+      <div>
+        <span class="section-label">
+          SHOP BY CATEGORY
+        </span>
+
+        <h2>
+          What are you looking for?
+        </h2>
+      </div>
+    </div>
+
+    <div class="category-list">
+
+      <button
+        type="button"
+        class="category-card"
+        [class.active]="selectedCategory === ''"
+        (click)="selectedCategory = ''; loadProducts()">
+
+        <div class="category-icon">
+          🛍️
+        </div>
+
+        <span>All</span>
+
+      </button>
+
+
+      <button
+        *ngFor="let category of categories"
+        type="button"
+        class="category-card"
+        [class.active]="selectedCategory === category"
+        (click)="selectedCategory = category; filterByCategory()">
+
+        <div class="category-icon">
+
+          <ng-container [ngSwitch]="category">
+
+            <span *ngSwitchCase="'Electronics'">
+              💻
+            </span>
+
+            <span *ngSwitchCase="'Mobiles'">
+              📱
+            </span>
+
+            <span *ngSwitchCase="'Laptops'">
+              💻
+            </span>
+
+            <span *ngSwitchCase="'Clothing'">
+              👕
+            </span>
+
+            <span *ngSwitchCase="'Shoes'">
+              👟
+            </span>
+
+            <span *ngSwitchCase="'Accessories'">
+              🎧
+            </span>
+
+            <span *ngSwitchDefault>
+              🛍️
+            </span>
+
+          </ng-container>
+
+        </div>
+
+        <span>
+          {{ category }}
+        </span>
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- SEARCH + FILTER -->
+  <section class="product-toolbar">
+
+    <div class="toolbar-left">
+
+      <span class="product-count">
+        {{ products.length }} Products
+      </span>
+
+      <span
+        *ngIf="selectedCategory"
+        class="selected-filter">
+
+        {{ selectedCategory }}
+
+        <button
+          type="button"
+          (click)="selectedCategory = ''; loadProducts()">
+          ×
+        </button>
+
+      </span>
+
+    </div>
+
+
+    <div class="product-search">
+
+      <input
+        type="text"
+        [(ngModel)]="searchKeyword"
+        (keyup.enter)="searchProducts()"
+        placeholder="Search products..."
+      />
+
+      <button
+        type="button"
+        (click)="searchProducts()">
+        🔍
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- PRODUCTS -->
+  <section class="products-section">
+
+    <div class="section-title-row">
+
+      <div>
+        <span class="section-label">
+          OUR COLLECTION
+        </span>
+
+        <h2>
+          Featured Products
+        </h2>
+      </div>
+
+      <span class="view-text">
+        Explore our latest collection
+      </span>
+
+    </div>
+
+
+    <!-- PRODUCT GRID -->
+    <div
+      class="product-grid"
+      *ngIf="products.length > 0">
+
+      <article
+        class="product-card"
+        *ngFor="let product of products">
+
+
+        <!-- IMAGE -->
+        <div class="product-image-container">
+
+          <span class="category-badge">
+            {{ product.category }}
+          </span>
+
+          <img
+            [src]="'images/' + product.imageUrl"
+            [alt]="product.productName"
+            class="product-image"
+          />
+
+        </div>
+
+
+        <!-- PRODUCT INFO -->
+        <div class="product-info">
+
+          <span class="brand-name">
+            {{ product.brand }}
+          </span>
+
+          <h3>
+            {{ product.productName }}
+          </h3>
+
+          <p class="product-description">
+            {{ product.description }}
+          </p>
+
+
+          <div class="product-price-row">
+
+            <span class="product-price">
+              ₹{{ product.price | number:'1.0-2' }}
+            </span>
+
+          </div>
+
+
+          <div class="stock-info">
+
+            <span
+              *ngIf="product.quantity > 0"
+              class="in-stock">
+              ✓ In Stock
+            </span>
+
+            <span
+              *ngIf="product.quantity === 0"
+              class="out-of-stock">
+              Out of Stock
+            </span>
+
+            <span
+              *ngIf="product.quantity > 0 && product.quantity <= 5"
+              class="low-stock">
+              Only {{ product.quantity }} left
+            </span>
+
+          </div>
+
+
+          <!-- ACTIONS -->
+          <div class="product-actions">
+
+            <button
+              type="button"
+              class="details-button"
+              (click)="viewDetails(product.id)">
+              View Details
+            </button>
+
+            <button
+              type="button"
+              class="cart-button"
+              [disabled]="product.quantity === 0"
+              (click)="addToCart(product.id)">
+
+              <span>🛒</span>
+
+              <span>
+                Add to Cart
+              </span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- NO PRODUCTS -->
+    <div
+      class="empty-products"
+      *ngIf="products.length === 0">
+
+      <div class="empty-icon">
+        🛍️
+      </div>
+
+      <h3>
+        No Products Found
+      </h3>
+
+      <p>
+        We couldn't find any products matching your search.
+      </p>
+
+      <button
+        type="button"
+        (click)="searchKeyword = ''; selectedCategory = ''; loadProducts()">
+        View All Products
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- WHY SHOPSPHERE -->
+  <section class="features-section">
+
+    <div class="feature-item">
+
+      <div class="feature-icon">
+        🚚
+      </div>
+
+      <div>
+        <h3>Fast Delivery</h3>
+        <p>Quick and reliable delivery</p>
+      </div>
+
+    </div>
+
+
+    <div class="feature-item">
+
+      <div class="feature-icon">
+        🔒
+      </div>
+
+      <div>
+        <h3>Secure Shopping</h3>
+        <p>Your data is protected</p>
+      </div>
+
+    </div>
+
+
+    <div class="feature-item">
+
+      <div class="feature-icon">
+        💳
+      </div>
+
+      <div>
+        <h3>Easy Payments</h3>
+        <p>Simple and convenient checkout</p>
+      </div>
+
+    </div>
+
+
+    <div class="feature-item">
+
+      <div class="feature-icon">
+        ⭐
+      </div>
+
+      <div>
+        <h3>Quality Products</h3>
+        <p>Products you'll love</p>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

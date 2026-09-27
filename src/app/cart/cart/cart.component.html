@@ -1,0 +1,338 @@
+<div class="cart-page">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="cart-header">
+
+            <div>
+                <span class="page-label">SHOPSPHERE</span>
+
+                <h1>
+                    <span>🛒</span>
+                    My Shopping Cart
+                </h1>
+
+                <p>
+                    Review your items before placing your order.
+                </p>
+            </div>
+
+            <button class="continue-btn" (click)="router.navigate(['/products'])">
+
+                ← Continue Shopping
+
+            </button>
+
+        </div>
+
+
+        <!-- Empty Cart -->
+        <div class="empty-cart" *ngIf="cartItems.length === 0">
+
+            <div class="empty-icon">
+                🛒
+            </div>
+
+            <h2>Your Cart is Empty</h2>
+
+            <p>
+                Looks like you haven't added anything to your cart yet.
+            </p>
+
+            <button class="shop-btn" (click)="router.navigate(['/products'])">
+
+                Start Shopping
+
+            </button>
+
+        </div>
+
+
+        <!-- Cart Content -->
+        <div class="cart-layout" *ngIf="cartItems.length > 0">
+
+
+            <!-- LEFT SIDE -->
+            <div class="cart-items-section">
+
+                <div class="items-heading">
+
+                    <div>
+                        <h2>Your Items</h2>
+
+                        <span>
+                            {{cartItems.length}}
+                            {{cartItems.length === 1 ? 'Item' : 'Items'}}
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <!-- Cart Item -->
+                <div class="cart-item" *ngFor="let item of cartItems">
+
+
+                    <!-- Product Image -->
+                    <div class="product-image-container">
+
+                        <img [src]="'images/' + item.imageUrl" [alt]="item.productName" class="product-image">
+
+                    </div>
+
+
+                    <!-- Product Information -->
+                    <div class="product-info">
+
+                        <div class="product-top">
+
+                            <div>
+
+                                <h3>
+                                    {{item.productName}}
+                                </h3>
+
+                                <p class="product-code">
+                                    Product ID: #{{item.cartId}}
+                                </p>
+
+                            </div>
+
+                            <button class="remove-btn" (click)="removeItem(item.cartId)" title="Remove item">
+
+                                🗑 Remove
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- Price -->
+                        <div class="price-section">
+
+                            <span class="unit-label">
+                                Price
+                            </span>
+
+                            <span class="unit-price">
+                                ₹{{item.price | number:'1.2-2'}}
+                            </span>
+
+                        </div>
+
+
+                        <!-- Bottom Row -->
+                        <div class="product-bottom">
+
+
+                            <!-- Quantity -->
+                            <div class="quantity-section">
+
+                                <span class="quantity-label">
+                                    Quantity
+                                </span>
+
+                                <div class="quantity-control">
+
+                                    <button class="quantity-btn" (click)="decrease(item.cartId)">
+
+                                        −
+
+                                    </button>
+
+                                    <span class="quantity-value">
+                                        {{item.quantity}}
+                                    </span>
+
+                                    <button class="quantity-btn plus" (click)="increase(item.cartId)">
+
+                                        +
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Item Total -->
+                            <div class="item-total">
+
+                                <span>
+                                    Item Total
+                                </span>
+
+                                <strong>
+                                    ₹{{item.totalPrice | number:'1.2-2'}}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+            <div class="summary-section">
+
+                <div class="summary-card">
+
+                    <div class="summary-title">
+
+                        <h2>
+                            Price Details
+                        </h2>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Items
+                        </span>
+
+                        <span>
+                            {{cartItems.length}}
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <span>
+                            ₹{{total | number:'1.2-2'}}
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Delivery
+                        </span>
+
+                        <span class="free">
+                            FREE
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-divider"></div>
+
+
+                    <div class="total-row">
+
+                        <span>
+                            Total Amount
+                        </span>
+
+                        <strong>
+                            ₹{{total | number:'1.2-2'}}
+                        </strong>
+
+                    </div>
+
+
+                    <button class="checkout-btn" (click)="goToCheckout()">
+
+                        <span>Proceed to Checkout</span>
+
+                        <span>→</span>
+
+                    </button>
+
+
+                    <div class="secure-checkout">
+
+                        🔒
+                        <span>
+                            Secure & Safe Checkout
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Benefits -->
+                <div class="benefits-card">
+
+                    <div class="benefit">
+
+                        <div class="benefit-icon">
+                            🚚
+                        </div>
+
+                        <div>
+                            <strong>
+                                Free Delivery
+                            </strong>
+
+                            <small>
+                                On your order
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="benefit">
+
+                        <div class="benefit-icon">
+                            🔒
+                        </div>
+
+                        <div>
+                            <strong>
+                                Secure Payment
+                            </strong>
+
+                            <small>
+                                100% secure checkout
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="benefit">
+
+                        <div class="benefit-icon">
+                            ↩️
+                        </div>
+
+                        <div>
+                            <strong>
+                                Easy Returns
+                            </strong>
+
+                            <small>
+                                Hassle-free returns
+                            </small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

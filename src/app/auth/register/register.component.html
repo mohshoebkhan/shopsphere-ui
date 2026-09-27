@@ -1,0 +1,213 @@
+
+<div class="register-container">
+
+  <div class="register-card">
+
+    <!-- Brand -->
+    <div class="brand-section">
+
+      <div class="brand-icon">
+        🛍️
+      </div>
+
+      <h1>ShopSphere</h1>
+
+      <p>Create your account</p>
+
+    </div>
+
+    <!-- Register Form -->
+    <form (ngSubmit)="register()">
+
+      <!-- First Name / Last Name -->
+      <div class="form-row">
+
+        <div class="form-group">
+
+          <label for="firstName">
+            First Name
+          </label>
+
+          <input
+            id="firstName"
+            type="text"
+            name="firstName"
+            [(ngModel)]="registerData.firstName"
+            placeholder="First name"
+            autocomplete="given-name"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="lastName">
+            Last Name
+          </label>
+
+          <input
+            id="lastName"
+            type="text"
+            name="lastName"
+            [(ngModel)]="registerData.lastName"
+            placeholder="Last name"
+            autocomplete="family-name"
+            required
+          />
+
+        </div>
+
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <div class="input-wrapper">
+
+          <span class="input-icon">
+            ✉
+          </span>
+
+          <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="registerData.email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          />
+
+        </div>
+
+      </div>
+
+      <!-- Mobile -->
+      <div class="form-group">
+
+        <label for="mobile">
+          Mobile Number
+        </label>
+
+        <div class="input-wrapper">
+
+          <span class="input-icon">
+            📱
+          </span>
+
+          <input
+            id="mobile"
+            type="tel"
+            name="mobile"
+            [(ngModel)]="registerData.mobile"
+            placeholder="10 digit mobile number"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+          />
+
+        </div>
+
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <div class="input-wrapper">
+
+          <span class="input-icon">
+            🔒
+          </span>
+
+          <input
+            id="password"
+            type="password"
+            name="password"
+            [(ngModel)]="registerData.password"
+            placeholder="Minimum 6 characters"
+            minlength="6"
+            autocomplete="new-password"
+            required
+          />
+
+        </div>
+
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+
+        <label for="confirmPassword">
+          Confirm Password
+        </label>
+
+        <div class="input-wrapper">
+
+          <span class="input-icon">
+            🔒
+          </span>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            [(ngModel)]="registerData.confirmPassword"
+            placeholder="Re-enter password"
+            autocomplete="new-password"
+            required
+          />
+
+        </div>
+
+      </div>
+
+      <!-- Register Button -->
+      <button
+        type="submit"
+        class="register-btn"
+        [disabled]="loading">
+
+        {{ loading ? 'Creating Account...' : 'Create Account' }}
+
+      </button>
+
+    </form>
+
+    <!-- Login -->
+    <div class="login-section">
+
+      <span>
+        Already have an account?
+      </span>
+
+      <button
+        type="button"
+        (click)="goToLogin()">
+
+        Login
+
+      </button>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="register-footer">
+
+      © 2026 ShopSphere
+
+    </div>
+
+  </div>
+
+</div>
+

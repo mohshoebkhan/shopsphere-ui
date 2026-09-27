@@ -1,0 +1,472 @@
+<div class="details-page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-wrapper">
+
+    <button
+      type="button"
+      class="back-link"
+      (click)="goBack()">
+
+      ← Back to Products
+
+    </button>
+
+    <span class="breadcrumb-separator">
+      /
+    </span>
+
+    <span>
+      {{ product?.category || 'Product' }}
+    </span>
+
+  </div>
+
+
+  <!-- Loading -->
+  <div
+    *ngIf="loading"
+    class="loading-container">
+
+    <div class="loader"></div>
+
+    <p>
+      Loading product...
+    </p>
+
+  </div>
+
+
+  <!-- Product Details -->
+  <main
+    *ngIf="!loading && product"
+    class="product-details-container">
+
+
+    <!-- =========================
+         LEFT - PRODUCT IMAGE
+    ========================== -->
+
+    <section class="image-section">
+
+      <div class="image-card">
+
+        <!-- Category -->
+        <span class="category-badge">
+          {{ product.category }}
+        </span>
+
+
+        <!-- Image -->
+        <div class="image-wrapper">
+
+          <img
+            [src]="'images/' + product.imageUrl"
+            [alt]="product.productName"
+            class="product-image">
+
+        </div>
+
+
+        <!-- Image Bottom Info -->
+        <div class="image-info">
+
+          <div class="image-info-item">
+
+            <span class="info-icon">
+              🔒
+            </span>
+
+            <span>
+              Secure Product
+            </span>
+
+          </div>
+
+          <div class="image-info-item">
+
+            <span class="info-icon">
+              🚚
+            </span>
+
+            <span>
+              Fast Delivery
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         RIGHT - PRODUCT INFO
+    ========================== -->
+
+    <section class="info-section">
+
+      <!-- Brand -->
+      <div class="brand-row">
+
+        <span class="brand">
+          {{ product.brand }}
+        </span>
+
+        <span class="stock-badge"
+              [class.out-of-stock]="product.quantity === 0">
+
+          <ng-container
+            *ngIf="product.quantity > 0">
+            ✓ In Stock
+          </ng-container>
+
+          <ng-container
+            *ngIf="product.quantity === 0">
+            Out of Stock
+          </ng-container>
+
+        </span>
+
+      </div>
+
+
+      <!-- Product Name -->
+      <h1 class="product-title">
+        {{ product.productName }}
+      </h1>
+
+
+      <!-- Rating -->
+      <div class="rating-row">
+
+        <span class="rating-badge">
+          ⭐ 4.5
+        </span>
+
+        <span class="rating-text">
+          2,135 Ratings & Reviews
+        </span>
+
+      </div>
+
+
+      <div class="divider"></div>
+
+
+      <!-- Price -->
+      <div class="price-section">
+
+        <span class="price">
+          ₹{{ product.price | number:'1.0-2' }}
+        </span>
+
+        <span class="old-price">
+          ₹{{ product.price + 5000 | number:'1.0-2' }}
+        </span>
+
+        <span class="discount">
+          10% OFF
+        </span>
+
+      </div>
+
+
+      <p class="tax-text">
+        Inclusive of all taxes
+      </p>
+
+
+      <!-- Offers -->
+      <div class="offers-section">
+
+        <h3>
+          Available Offers
+        </h3>
+
+
+        <div class="offer-item">
+
+          <span class="offer-icon">
+            🏷️
+          </span>
+
+          <div>
+            <strong>
+              Special Price
+            </strong>
+
+            <p>
+              Get extra benefits on this product.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="offer-item">
+
+          <span class="offer-icon">
+            🚚
+          </span>
+
+          <div>
+            <strong>
+              Free Delivery
+            </strong>
+
+            <p>
+              Fast delivery available on eligible orders.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Product Information -->
+      <div class="product-information">
+
+        <h3>
+          Product Information
+        </h3>
+
+
+        <div class="information-row">
+
+          <span class="label">
+            Brand
+          </span>
+
+          <span class="value">
+            {{ product.brand }}
+          </span>
+
+        </div>
+
+
+        <div class="information-row">
+
+          <span class="label">
+            Category
+          </span>
+
+          <span class="value">
+            {{ product.category }}
+          </span>
+
+        </div>
+
+
+        <div class="information-row">
+
+          <span class="label">
+            Availability
+          </span>
+
+          <span class="value">
+
+            <ng-container
+              *ngIf="product.quantity > 0">
+              {{ product.quantity }} units available
+            </ng-container>
+
+            <ng-container
+              *ngIf="product.quantity === 0">
+              Currently unavailable
+            </ng-container>
+
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Description -->
+      <div class="description-section">
+
+        <h3>
+          Description
+        </h3>
+
+        <p>
+          {{ product.description }}
+        </p>
+
+      </div>
+
+
+      <!-- Quantity warning -->
+      <div
+        *ngIf="product.quantity > 0 && product.quantity <= 5"
+        class="low-stock-message">
+
+        ⚡ Hurry! Only
+        <strong>{{ product.quantity }}</strong>
+        left in stock.
+
+      </div>
+
+
+      <!-- ACTION BUTTONS -->
+      <div class="action-section">
+
+
+        <!-- Add To Cart -->
+
+        <button
+          type="button"
+          class="cart-button"
+          [disabled]="product.quantity === 0"
+          (click)="addToCart()">
+
+          🛒
+          <span>
+            Add to Cart
+          </span>
+
+        </button>
+
+
+        <!-- Buy Now -->
+
+        <button
+          type="button"
+          class="buy-button"
+          [disabled]="product.quantity === 0"
+          (click)="buyNow()">
+
+          ⚡
+          <span>
+            Buy Now
+          </span>
+
+        </button>
+
+
+        <!-- Wishlist -->
+
+        <button
+          type="button"
+          class="wishlist-button"
+          (click)="addToWishlist()">
+
+          ❤️
+
+          <span>
+            Wishlist
+          </span>
+
+        </button>
+
+      </div>
+
+
+      <!-- Bottom Back Button -->
+
+      <button
+        type="button"
+        class="back-button"
+        (click)="goBack()">
+
+        ← Continue Shopping
+
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       WHY SHOPSPHERE
+  ========================== -->
+
+  <section
+    *ngIf="!loading && product"
+    class="service-section">
+
+
+    <div class="service-card">
+
+      <div class="service-icon">
+        🚚
+      </div>
+
+      <div>
+        <h3>
+          Fast Delivery
+        </h3>
+
+        <p>
+          Quick and reliable delivery
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="service-card">
+
+      <div class="service-icon">
+        🔒
+      </div>
+
+      <div>
+        <h3>
+          Secure Shopping
+        </h3>
+
+        <p>
+          Your information is protected
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="service-card">
+
+      <div class="service-icon">
+        🔄
+      </div>
+
+      <div>
+        <h3>
+          Easy Returns
+        </h3>
+
+        <p>
+          Simple return experience
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="service-card">
+
+      <div class="service-icon">
+        ⭐
+      </div>
+
+      <div>
+        <h3>
+          Quality Products
+        </h3>
+
+        <p>
+          Products you'll love
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
