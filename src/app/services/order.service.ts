@@ -50,4 +50,22 @@ cancelOrder(orderId: number, userId: number): Observable<string> {
   );
 }
 
+updateOrderStatus(orderId: number, status: string): Observable<string> {
+  return this.http.put<string>(
+    `${environment.apiUrl}/orders/${orderId}/status`,
+    {},
+    {
+      params: {
+        status: status
+      },
+      responseType: 'text' as 'json'
+    }
+  );
+}
+
+getAllOrders(): Observable<Order[]> {
+  return this.http.get<Order[]>(
+    `${environment.apiUrl}/orders/admin/all`
+  );
+}
 }

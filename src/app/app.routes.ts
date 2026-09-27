@@ -13,39 +13,39 @@ import { WishlistComponent } from './wishlist/wishlist/wishlist.component';
 import { authGuard } from './guards/auth.guard';
 import { CheckoutComponent } from './checkout/checkout/checkout.component';
 import { OrderDetailsComponent } from './order/order-details/order-details.component';
+import { AdminOrdersComponent } from './pages/admin-orders/admin-orders.component';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
-
   // =========================
   // PUBLIC ROUTES
   // =========================
 
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
 
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
 
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 
   {
     path: 'products',
-    component: ProductListComponent
+    component: ProductListComponent,
   },
 
   {
     path: 'products/:id',
-    component: ProductDetailsComponent
+    component: ProductDetailsComponent,
   },
-
 
   // =========================
   // PROTECTED ROUTES
@@ -54,39 +54,43 @@ export const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
     path: 'orders',
     component: OrderComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
+  {
+  path: 'admin/orders',
+  component: AdminOrdersComponent,
+  canActivate: [adminGuard]
+},
   {
     path: 'wishlist',
     component: WishlistComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
-  path: 'checkout',
-  component: CheckoutComponent,
-  canActivate: [authGuard]
-},
+    path: 'checkout',
+    component: CheckoutComponent,
+    canActivate: [authGuard],
+  },
 
-{
-  path: 'orders/:orderId',
-  component: OrderDetailsComponent,
-  canActivate: [authGuard]
-},
+  {
+    path: 'orders/:orderId',
+    component: OrderDetailsComponent,
+    canActivate: [authGuard],
+  },
   // =========================
   // UNKNOWN ROUTE
   // =========================
 
   {
     path: '**',
-    redirectTo: 'login'
-  }
-
+    redirectTo: 'login',
+  },
 ];

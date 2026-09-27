@@ -1,0 +1,447 @@
+<div class="admin-orders-container">
+
+    <!-- ========================= -->
+    <!-- PAGE HEADER -->
+    <!-- ========================= -->
+
+    <div class="page-header">
+
+        <h2>Admin Order Management</h2>
+
+        <button class="refresh-btn" (click)="loadOrders()">
+            Refresh
+        </button>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- SEARCH + FILTER -->
+    <!-- ========================= -->
+
+    <div class="filters-container" *ngIf="!loading && orders.length > 0">
+
+        <!-- Search -->
+
+        <div class="search-box">
+
+            <input type="text" placeholder="Search by Order ID, Customer or Mobile" [(ngModel)]="searchText"
+                (input)="onSearchChange()">
+
+        </div>
+
+
+        <!-- Status Filter -->
+
+        <div class="status-filter">
+
+            <select [(ngModel)]="selectedStatus" (change)="onStatusFilterChange()">
+
+                <option value="ALL">
+                    All Status
+                </option>
+
+                <option *ngFor="let status of statusOptions" [value]="status">
+
+                    {{ status }}
+
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- Clear -->
+
+        <button class="clear-btn" (click)="clearFilters()">
+
+            Clear
+
+        </button>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- LOADING -->
+    <!-- ========================= -->
+
+    <div *ngIf="loading" class="loading">
+
+        Loading orders...
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- NO ORDERS -->
+    <!-- ========================= -->
+
+    <div *ngIf="!loading && orders.length === 0" class="no-orders">
+
+        No orders found.
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- NO FILTER RESULT -->
+    <!-- ========================= -->
+
+    <div *ngIf="
+      !loading &&
+      orders.length > 0 &&
+      filteredOrders.length === 0
+    " class="no-orders">
+
+        No orders match your search/filter.
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- ORDERS TABLE -->
+    <!-- ========================= -->
+
+    <div *ngIf="
+      !loading &&
+      filteredOrders.length > 0
+    " class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+
+                    <th>Customer</th>
+
+                    <th>Mobile</th>
+
+                    <th>Total</th>
+
+                    <th>Payment</th>
+
+                    <th>Date</th>
+
+                    <th>Status</th>
+
+                    <th>Update</th>
+                    <th>Details</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr *ngFor="let order of filteredOrders">
+
+                    <!-- Order ID -->
+
+                    <td>
+                        #{{ order.orderId }}
+                    </td>
+
+
+                    <!-- Customer -->
+
+                    <td>
+                        {{ order.fullName }}
+                    </td>
+
+
+                    <!-- Mobile -->
+
+                    <td>
+                        {{ order.mobile }}
+                    </td>
+
+
+                    <!-- Total -->
+
+                    <td>
+                        ₹{{ order.totalAmount }}
+                    </td>
+
+
+                    <!-- Payment -->
+
+                    <td>
+                        {{ order.paymentMethod }}
+                    </td>
+
+
+                    <!-- Date -->
+
+                    <td>
+                        {{ order.orderDate | date:'dd-MM-yyyy HH:mm' }}
+                    </td>
+
+
+                    <!-- Status -->
+
+                    <td>
+
+                        <span class="status" [ngClass]="order.status?.toLowerCase()">
+
+                            {{ order.status }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Update -->
+
+                    <td>
+
+                        <select [value]="order.status" [disabled]="
+                updatingOrderId === order.orderId ||
+                order.status === 'DELIVERED' ||
+                order.status === 'CANCELLED'
+              " (change)="updateStatus(order, $event)">
+
+                            <option *ngFor="let status of statusOptions" [value]="status">
+
+                                {{ status }}
+
+                            </option>
+
+                        </select>
+
+                    </td>
+                    <td>
+
+                        <button class="details-btn" (click)="viewOrderDetails(order)">
+
+                            View Details
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+<!-- ========================= -->
+<!-- ORDER DETAILS MODAL -->
+<!-- ========================= -->
+
+<div
+  *ngIf="selectedOrder"
+  class="modal-overlay"
+  (click)="closeOrderDetails()">
+
+  <div
+    class="order-modal"
+    (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+
+    <div class="modal-header">
+
+      <h2>
+        Order #{{ selectedOrder.orderId }}
+      </h2>
+
+      <button
+        class="close-btn"
+        (click)="closeOrderDetails()">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <!-- Customer -->
+
+    <div class="details-section">
+
+      <h3>Customer Details</h3>
+
+      <p>
+        <strong>Name:</strong>
+        {{ selectedOrder.fullName }}
+      </p>
+
+      <p>
+        <strong>Mobile:</strong>
+        {{ selectedOrder.mobile }}
+      </p>
+
+    </div>
+
+
+    <!-- Address -->
+
+    <div class="details-section">
+
+      <h3>Delivery Address</h3>
+
+      <p>
+        {{ selectedOrder.address }}
+      </p>
+
+      <p>
+        {{ selectedOrder.city }},
+        {{ selectedOrder.state }}
+        - {{ selectedOrder.pincode }}
+      </p>
+
+    </div>
+
+
+    <!-- Payment -->
+
+    <div class="details-section">
+
+      <h3>Payment Details</h3>
+
+      <p>
+        <strong>Payment Method:</strong>
+        {{ selectedOrder.paymentMethod }}
+      </p>
+
+      <p>
+        <strong>Order Date:</strong>
+        {{ selectedOrder.orderDate | date:'dd-MM-yyyy HH:mm' }}
+      </p>
+
+    </div>
+
+
+    <!-- Order Summary -->
+
+    <div class="details-section">
+
+      <h3>Order Summary</h3>
+
+      <p>
+        <strong>Total Amount:</strong>
+        ₹{{ selectedOrder.totalAmount }}
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+
+        <span
+          class="status"
+          [ngClass]="selectedOrder.status?.toLowerCase()">
+
+          {{ selectedOrder.status }}
+
+        </span>
+
+      </p>
+
+    </div>
+
+
+    <!-- Products -->
+
+    <div class="details-section">
+
+      <h3>Ordered Products</h3>
+
+      <div
+        *ngIf="loadingDetails"
+        class="loading-details">
+
+        Loading products...
+
+      </div>
+
+
+      <div
+        *ngIf="!loadingDetails && orderItems.length === 0"
+        class="no-items">
+
+        No product details found.
+
+      </div>
+
+
+      <div
+        *ngIf="!loadingDetails && orderItems.length > 0"
+        class="items-table">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr
+              *ngFor="let item of orderItems">
+
+              <td>
+                {{ item.productName }}
+              </td>
+
+              <td>
+                {{ item.quantity }}
+              </td>
+
+              <td>
+                ₹{{ item.price }}
+              </td>
+
+              <td>
+                ₹{{ item.price * item.quantity }}
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <div class="modal-footer">
+
+      <button
+        class="close-modal-btn"
+        (click)="closeOrderDetails()">
+
+        Close
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
